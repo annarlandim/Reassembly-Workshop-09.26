@@ -1,0 +1,26 @@
+﻿Plot_ID;Plot_phase_I;PhaseI;Forest_1km;Distance_forest;Distance_edge;Locality;Note;Purchase_d;Age_2026;Regeneration_year;Need_check;Treatment;Elevation;Longitude;Latitude
+XP201-PR;;;0.39;78;0;La Yuca : Don Olivo;New plot;private;0;2024;Correct;Early regeneration;379;-79.21502947;0.511963322
+XP202-PR;;;0.76;78;0;Don Velazquez;;private;0;2024;Correct;Early regeneration;219;-79.188299;0.536624405
+XP203-PR;PR25;1;0.79;162;0;Casa Rosero;Next to Reassembly PR25;2017;9;2017;No;Early regeneration;533;-79.17664243;0.495169203
+XP204-PR;PR20;1;0.8;166;0;Casa Rosero;Next to Reassembly PR20;2020;7;2019;Correct;Early regeneration;555;-79.17180931;0.497112037
+XP205-PR;PR19;1;0.49;47;0;Cedeno (Reassembly PR19);Next to Reassembly PR19;2014;9;2017;Correct;Early regeneration;195;-79.17484707;0.55325892
+XP206-PR;;;0.53;105;0;Cedeno;New plot;2014;9;2017;Yes;Early regeneration;180;-79.17846675;0.554236652
+XP207-PR;PR33;1;0.8;19;0;No te ahueves;Next to Reassembly PR33;2023;6;2020;No;Early regeneration;312;-79.22843794;0.488835191
+XP208-PR;;;0.78;26;0;La Yuca;New plot;2022;6;2020;4-5 years (range of age);Early regeneration;462;-79.21156536;0.500251833
+XP209-PR;PA55;1;0.92;39;0;Las Vacas (Reassembly PA55);Reassembly PA55;2023;3;2023;Correct;Early regeneration;426;-79.22441142;0.497343521
+XP210-PR;;;0;105;0;El Puerto;New plot;2023;3;2023;Correct;Early regeneration;210;-79.22831964;0.459481731
+XP211-PR;;;0.54;107;0;Casa del rio;New plot;2024;4;2022;Yes;Early regeneration;161;-79.21797846;0.467943298
+XP212-PR;;;0.7;100;0;Casa del rio;New plot;2022;6;2020;Yes;Early regeneration;160;-79.21292145;0.467046758
+XP213-PR;;;0.15;252;0;Casa del rio;New plot;2023;6;2020;Yes;Early regeneration;161;-79.22289339;0.462319853
+XP214-PR;;;0.57;115;0;Caserio: El cerezo;New plot crossing the river;2022;5;2021;Yes;Early regeneration;185;-79.07311507;0.488575109
+XP215-PR;;;0.52;27;0;Caserio: La estacion;New plot 15-20 min away the estation;2022;3;2023;Yes;Early regeneration;248;-79.09197228;0.474257592
+XP216-PLR;PR26;1;0.96;6;0;Chocolab (Reassembly PR26);Next to Reassembly PR26;2004;31;1995;No;Late regeneration;320;-79.20497368;0.526727449
+XP217-PLR;PR24;1;0.37;51;0;Chocolab (Reassembly PR24);Next to Reassembly PR24;2004;24;2002;No;Late regeneration;431;-79.21395819;0.520363859
+XP218-PLR;PR22;1;0.52;155;0;La Yuca (Reassembly PR22);Next to Reassembly PR22;2010;15;2011;No;Late regeneration;386;-79.20459217;0.50986245
+XP219-PLR;PR27;1;0.71;44;0;Casa del rio (Reassembly PR27);Next to Reassembly PR27;2002;30;1996;No;Late regeneration;261;-79.20911394;0.462551481
+XP220-PLR;;;0.58;75;0;Caserio:;New plot;2023;50;0;Yes;Late regeneration;194;-79.06783291;0.491295262
+XP221-OG;;;0.71;0;36;Caserio: Moreira;New plot crossing the river;2023;50;0;No;Old-Growth;374;-79.0681367;0.496820093
+XP222-OG;OG42;1;0.75;0;166;Cedeno (Reassembly OG42);Next to Reassembly OG42;2014;50;0;No;Old-Growth;328;-79.17488737;0.538754465
+XP223-OG;OG41;1;0.87;0;215;Finca de Dani (Reassembly OG41);Next to Reassembly OG41;2025;50;0;No;Old-Growth;422;-79.18819316;0.52997795
+XP224-OG;OG47;1;0.76;0;102;Casa del Medio (Reassembly OG47);Next to Reassembly OG47;2008;50;0;No;Old-Growth;346;-79.21397678;0.484979065
+XP225-OG;OG44;1;0.95;0;316;Casa del Medio (Reassembly OG44);Next to Reassembly OG44;2000;50;0;No;Old-Growth;359;-79.19773896;0.474367524
