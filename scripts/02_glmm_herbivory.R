@@ -1,5 +1,5 @@
 ## =============================================================================
-## 03_glmm_herbivory.R
+## 02_glmm_herbivory.R
 ##
 ## IN:  data/processed/trex_analysis.csv
 ## OUT: output/figures/  (exploratory + results plots)
@@ -36,18 +36,20 @@ dat <- readr::read_csv(
 
 theme_set(theme_bw(base_size = 12))
 
+str(dat)
 
 ## -----------------------------------------------------------------------------
 ## Two responses (not one, as it may be assumed!)
 ## -----------------------------------------------------------------------------
 ##   INCIDENCE — what proportion of a plant's leaves were attacked at all?
+##               estimated from n_leaves and n_leaves_damaged
 ##               successes out of a known number of trials -> binomial distribution
 ##   SEVERITY  — given damage, how much leaf area was lost?
 ##               continuous proportion, no trial count -> beta distribution (bounded)
 
 dat_inc <- dat |>
   filter(!is.na(n_leaves), !is.na(n_leaves_damaged), n_leaves > 0) |>
-  filter(!leaf_count_flag) |>   # excludes the 2 rows where damaged > total —
+  filter(!leaf_count_flag) |>   # excludes the 2 rows where damaged > total 
   # see the warning in 01_clean_data.R
   mutate(incidence = n_leaves_damaged / n_leaves)
 
@@ -244,13 +246,11 @@ m_inc_mixed_age <- glmer(
 
 ## Confirming convergence is trustworthy
 
-run_allfit_crosscheck <- TRUE
-if (run_allfit_crosscheck) {
-  message("\nCross-checking convergence across optimizers (this takes a while)...")
+## Cross-checking convergence across optimizers (this takes a while):
   fits <- allFit(m_inc_mixed_age)
   print(summary(fits)$which.OK)
   print(range(unlist(summary(fits)$llik)))  # should agree to several decimals
-}
+
 
 ## Check dispersion properly: do not assume the binomial variance is correct
 ## just because the model converged.

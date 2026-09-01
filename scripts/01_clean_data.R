@@ -97,19 +97,63 @@ censo_clean <- censo_raw |>
     block          = Block,
     subblock       = Subblock,
     date_mortality = Date_mortality,
-    died           = Survival           # <- renamed on purpose, see above
+    died           = Survival
   ) |>
   mutate(
-    date_planted = as.Date(Date_treelet_planted, format = "%B %d %Y"),
-    date_control = as.Date(Date_tree_Control, format = "%B %d %Y"),
-    days_at_risk = as.numeric(date_control - date_planted)
+    date_planted   = readr::parse_date(Date_treelet_planted, format = "%B %d %Y",
+                                       locale = readr::locale(date_names = "en")),
+    date_control   = readr::parse_date(Date_tree_Control, format = "%B %d %Y",
+                                       locale = readr::locale(date_names = "en")),
+    date_mortality = readr::parse_date(date_mortality, format = "%B %d %Y",
+                                       locale = readr::locale(date_names = "en")),
+    date_end       = pmin(date_control, date_mortality, na.rm = TRUE),
+    days_at_risk   = as.numeric(date_end - date_planted)
   ) |>
-  add_code_parts() |>
-  select(unique_code, species_acronym, mother_tree,
-         plot_id, block, subblock, died, date_mortality, days_at_risk)
+  add_code_parts()
+
+## FLAG: species identity unreliable per a stray note in the raw data
+## ("wrong species needs correction of code" in Date_treelet_planted for
+## CH-MT5-P53, plot XP212-PR). Confirm the real species before using this row.
+censo_clean <- censo_clean |>
+  mutate(species_id_flag = unique_code == "CH-MT5-P53")
+if (any(censo_clean$species_id_flag)) {
+  warning("unique_code CH-MT5-P53 has an unreliable species ID per a note ",
+          "in the raw data. Flagged, not removed — exclude from species-level ",
+          "models downstream.")
+}
+
+## FLAG: days_at_risk <= 0 (control date on/before planting date).
+## Two distinct patterns, kept as separate flags rather than one blended
+## exclusion — see the plot-level breakdown for why.
+plot_bad_rate <- censo_clean |>
+  group_by(plot_id) |>
+  summarise(n = n(), n_bad = sum(days_at_risk <= 0, na.rm = TRUE),
+            pct_bad = n_bad / n, .groups = "drop") |>
+  filter(n_bad > 0) |>
+  arrange(desc(pct_bad))
+print(plot_bad_rate)
+
+bad_plots <- plot_bad_rate |> filter(pct_bad > 0.5) |> pull(plot_id)
+
+censo_clean <- censo_clean |>
+  mutate(
+    risk_time_flag         = !is.na(days_at_risk) & days_at_risk <= 0,
+    plot_control_date_flag = plot_id %in% bad_plots
+  )
+
+if (length(bad_plots) > 0) {
+  warning("Date_tree_Control appears wrong for essentially the WHOLE plot in: ",
+          paste(bad_plots, collapse = ", "),
+          " — plot-level data-entry issue, not individual replants. ",
+          "Confirm with Edith/CM before using days_at_risk for these plots.")
+}
+
+censo_clean <- censo_clean |>
+  select(unique_code, species_acronym, mother_tree, plot_id, block, subblock,
+         died, date_mortality, days_at_risk,
+         species_id_flag, risk_time_flag, plot_control_date_flag)
 
 save_data(censo_clean, "censo_clean.csv", stage = "clean")
-
 
 ## -----------------------------------------------------------------------------
 ## Clean: traits (leaf level -> plant level)

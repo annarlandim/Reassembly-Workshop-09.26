@@ -110,9 +110,8 @@ source(here::here("utils", "functions.R"))
 
 scripts <- c(
   "01_clean_data.R",      # data/raw/  -> data/clean/
-  "02_diagnose_data.R",   # data/clean/ -> output/figures/, console diagnostics
-  "03_glmm_herbivory.R",  # data/processed/ -> models, output/results/
-  "04_glmm_mortality.R"   # data/processed/ -> models, output/results/
+  "02_glmm_herbivory.R",  # data/processed/ -> models, output/results/
+  "03_glmm_mortality.R"   # data/processed/ -> models, output/results/
 )
 
 run_script <- function(filename) {
