@@ -1,4 +1,33 @@
-.Rproj.user
+# --- R ---
 .Rhistory
+.Rapp.history
 .RData
 .Ruserdata
+.Rproj.user/
+
+# --- renv ---
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/sandbox/
+renv/staging/
+
+# --- Data ---
+data/raw/*
+!data/raw/README.md
+data/clean/*
+!data/clean/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# --- Output ---
+output/figures/*
+!output/figures/.gitkeep
+output/results/*
+!output/results/.gitkeep
+
+# --- OS ---
+.DS_Store
+Thumbs.db
