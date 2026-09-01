@@ -14,7 +14,7 @@ Two things to take from this repo:
 2.  **Get the data.** The raw files are *not* in this repository. Copy these four from the Reassembly Nextcloud into `data/raw/`:
 
     | File | From |
-    |----|----|
+    |------------------------------------|------------------------------------|
     | `Censo_Herbivory.csv` | Julie — herbivory census |
     | `Censo_clean_27042026.csv` | Edith / CM — censo, mortality, size |
     | `FOTODISK_LSA_master.xlsx` | Hanna — leaf traits (LSA-2050) |
@@ -127,10 +127,10 @@ Two things worth noticing here. Test the interaction as a whole with an LRT befo
 
 ### Exercise 3) check, don't assume
 
-The model converged. That does not mean the binomial variance assumption holds. Four checks, in order, each revealing something the previous one hid:
+The model converged. That does not mean the binomial variance assumption holds. Four checks are needed, each one revealing something the previous one hid:
 
 | Step | Result |
-|----|----|
+|------------------------------------|------------------------------------|
 | `testDispersion()` | ratio 1.07 — looks mild |
 | `plot(simulateResiduals(...))` | dense outliers stacked at 0 and 1 |
 | `testOutliers(type = "bootstrap")` | 6.1% observed vs 0.3% expected — **20× excess** |
@@ -157,7 +157,7 @@ Also note `block:plot_id` (0.52) exceeding `plot_id` (0.38): most spatial variat
 These fire as warnings every time you run the pipeline. Ideally, in the future, they would be resolved with the data owners.
 
 | What | Who to ask |
-|----|----|
+|------------------------------------|------------------------------------|
 | 4 plots where `Date_tree_Control` predates planting for nearly every plant | Edith / CM |
 | XP201-PR, XP202-PR: `Age_2026 = 0` but `Regeneration_year = 2024` | Felicity |
 | XP220-PLR: age 50 but labelled late-regeneration, no regeneration year | Felicity |

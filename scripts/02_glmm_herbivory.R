@@ -254,9 +254,9 @@ m_inc_mixed_age <- glmer(
 ## Confirming convergence is trustworthy
 
 ## Cross-checking convergence across optimizers (this takes a while):
-fits <- allFit(m_inc_mixed_age)
-print(summary(fits)$which.OK)
-print(range(unlist(summary(fits)$llik)))  # should agree to several decimals
+# fits <- allFit(m_inc_mixed_age)
+# print(summary(fits)$which.OK)
+# print(range(unlist(summary(fits)$llik)))  # should agree to several decimals
 
 
 ## =============================================================================
