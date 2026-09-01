@@ -111,6 +111,17 @@ p_mt
 
 
 ## =============================================================================
+## EXERCISE 5 — Where does the variation in mortality sit?
+##
+## Same machinery as the herbivory script, different question. Here one of the
+## random effects is of scientific interest rather than a nuisance term:
+## (1 | species_acronym:mother_tree) is the genotype question T-REX's
+## mixed-maternal-line design was built to test.
+##
+## The result to look at is NOT the p-values on the species terms. It's the
+## variance components further down: how much variation sits between mother
+## trees, versus between plots?
+##
 ## PART B — THE MODEL
 ## =============================================================================
 ## - species x age (LRT-tested first, as in 02_glmm_herbivory.R)

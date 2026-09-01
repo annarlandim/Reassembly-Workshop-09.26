@@ -5,10 +5,12 @@
 ## OUT: output/figures/  (exploratory + results plots)
 ##      output/results/  (model summaries, comparisons)
 ##
-##   EXERCISE 1  — matching random effects to the experimental design
-##   EXERCISE 1B — adding age: interaction, convergence, and
-##                 checking dispersion 
-##   EXERCISE 2  — effective n when the predictor varies at the species level
+##   EXERCISE 1 — matching random effects to the experimental design
+##   EXERCISE 2 — adding age: does the species pattern change with succession?
+##   EXERCISE 3 — check, don't assume: is the binomial assumption actually OK?
+##   EXERCISE 4 — effective n when the predictor varies at the species level
+##
+##   Plus one DEMO section (severity as a beta GLMM) that is not an exercise.
 ##
 ## Run via: source(here::here("utils", "workflow.R"))
 ## =============================================================================
@@ -201,7 +203,12 @@ print(check_overdispersion(m_inc_mixed))
 
 
 ## =============================================================================
-## EXERCISE 1B — Does the herbivory-species relationship change with age?
+## EXERCISE 2 — Does the herbivory-species relationship change with age?
+##
+## Species on its own only tells you which species differ from which. It says
+## nothing about succession. If the question is "does herbivory change as the
+## forest recovers, and differently for different species?", age has to be in
+## the model, with an interaction.
 ##
 ## In an ideal world we would have environmental variables that change with
 ## time, rather than time only. E.g. canopy cover and soil moisture.
@@ -220,7 +227,7 @@ m_inc_naive_age <- glm(
 ## Test the interaction AS A WHOLE before reading 15 individual interaction
 ## p-values — scanning that many at once will find "significant" ones by
 ## chance alone even if nothing is really going on.
-message("\nEXERCISE 1B: does species x age improve on species + age?")
+message("\nEXERCISE 2: does species x age improve on species + age?")
 print(anova(m_inc_noint_age, m_inc_naive_age, test = "LRT")) # Yes!
 
 ## Rescale age before fitting the mixed version. age_2026 runs 0-50 while
@@ -247,13 +254,29 @@ m_inc_mixed_age <- glmer(
 ## Confirming convergence is trustworthy
 
 ## Cross-checking convergence across optimizers (this takes a while):
-  fits <- allFit(m_inc_mixed_age)
-  print(summary(fits)$which.OK)
-  print(range(unlist(summary(fits)$llik)))  # should agree to several decimals
+fits <- allFit(m_inc_mixed_age)
+print(summary(fits)$which.OK)
+print(range(unlist(summary(fits)$llik)))  # should agree to several decimals
 
 
-## Check dispersion properly: do not assume the binomial variance is correct
-## just because the model converged.
+## =============================================================================
+## EXERCISE 3 — Check, don't assume
+##
+## The model converged. That does NOT mean the binomial variance assumption
+## holds. Four checks, in order, each one telling you something the previous
+## one hid:
+##   1. testDispersion()            -> ratio 1.07. Looks mild.
+##   2. plot(simulateResiduals())   -> outliers stacked at 0 and 1.
+##   3. testOutliers("bootstrap")   -> 6.1% observed vs 0.3% expected. 20x.
+##   4. AIC(binomial, betabinomial) -> beta-binomial wins by ~4551.
+##
+## The lesson: the mild-looking global ratio in step 1 was a bad guide,
+## because trial sizes here run from 1 leaf to 3,587 leaves. One summary
+## number averaged a few badly-behaved cases in with thousands of fine ones.
+## Run the check.
+## =============================================================================
+
+## Step 1: the global dispersion ratio. Do not stop here.
 inc_age_res <- simulateResiduals(m_inc_mixed_age)
 print(testDispersion(inc_age_res))
 print(check_overdispersion(m_inc_mixed_age))
@@ -261,7 +284,11 @@ print(check_overdispersion(m_inc_mixed_age))
 #     width = 700, height = 500)
 plot(inc_age_res, quantreg = FALSE)
 # dev.off()
+## Step 3: the bootstrap outlier test. DHARMa's own docs say the default test
+## is unreliable for integer data with small trial sizes, so use this one.
 testOutliers(inc_age_res, type = "bootstrap")
+
+## Where is the misfit concentrated? Plot residuals against trial size.
 plotResiduals(inc_age_res, form = dat_inc$n_leaves, xlab = "n_leaves (trial size)")
 
 mf <- model.frame(m_inc_mixed_age)
@@ -347,7 +374,11 @@ p_age_curves
 
 
 ## =============================================================================
-## SEVERITY AS A BETA GLMM
+## DEMO (not an exercise) — SEVERITY AS A BETA GLMM
+##
+## Same data, the other response variable. Severity is a continuous proportion
+## with no trial count, so it needs beta rather than binomial. Included so you
+## have a worked beta-regression example; not one of the numbered exercises.
 ## =============================================================================
 
 m_sev <- glmmTMB(
@@ -390,14 +421,14 @@ plot(sev_res)
 ## Now what would you do to improve this model fit?
 
 ## =============================================================================
-## EXERCISE 2 — Effective n
+## EXERCISE 4 — Effective n
 ##
 ## Thanks, Hanna!
 ## =============================================================================
 
 dat_tr <- dat_sev |> filter(!is.na(toughness), !is.na(chl_ug_cm2))
 
-message("\nEXERCISE 2: ", nrow(dat_tr), " plants, but only ",
+message("\nEXERCISE 4: ", nrow(dat_tr), " plants, but only ",
         n_distinct(dat_tr$species_acronym), " species carry trait values.")
 message(">>> The effective n for a species-level trait effect is that second number.")
 
@@ -445,7 +476,7 @@ p_trait <- trait_compare |>
   coord_flip() +
   scale_colour_manual(values = c("firebrick", "steelblue"), name = NULL) +
   labs(x = NULL, y = "Effect on severity (logit scale)",
-       title = "Exercise 2: what the species random effect does to trait effects",
+       title = "Exercise 4: what the species random effect does to trait effects",
        subtitle = "Same data and predictors, but the replication level differs")
 p_trait
 # save_figure(p_trait, "EX2_trait_effective_n.png")
