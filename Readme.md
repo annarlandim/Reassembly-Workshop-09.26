@@ -14,7 +14,7 @@ Two things to take from this repo:
 2.  **Get the data.** The raw files are *not* in this repository. Copy these four from the Reassembly Nextcloud into `data/raw/`:
 
     | File | From |
-    |------------------------------------|------------------------------------|
+    |----|----|
     | `Censo_Herbivory.csv` | Julie — herbivory census |
     | `Censo_clean_27042026.csv` | Edith / CM — censo, mortality, size |
     | `FOTODISK_LSA_master.xlsx` | Hanna — leaf traits (LSA-2050) |
@@ -130,7 +130,7 @@ Two things worth noticing here. Test the interaction as a whole with an LRT befo
 The model converged. That does not mean the binomial variance assumption holds. Four checks are needed, each one revealing something the previous one hid:
 
 | Step | Result |
-|------------------------------------|------------------------------------|
+|----|----|
 | `testDispersion()` | ratio 1.07 — looks mild |
 | `plot(simulateResiduals(...))` | dense outliers stacked at 0 and 1 |
 | `testOutliers(type = "bootstrap")` | 6.1% observed vs 0.3% expected — **20× excess** |
@@ -157,12 +157,11 @@ Also note `block:plot_id` (0.52) exceeding `plot_id` (0.38): most spatial variat
 These fire as warnings every time you run the pipeline. Ideally, in the future, they would be resolved with the data owners.
 
 | What | Who to ask |
-|------------------------------------|------------------------------------|
+|----|----|
 | 4 plots where `Date_tree_Control` predates planting for nearly every plant | Edith / CM |
 | XP201-PR, XP202-PR: `Age_2026 = 0` but `Regeneration_year = 2024` | Felicity |
 | XP220-PLR: age 50 but labelled late-regeneration, no regeneration year | Felicity |
 | `CH-MT5-P53`: the raw data itself says the species ID is wrong | censo maintainer |
-| Does block 5 exist? Field notes say blocks 1–4; the data disagree | Julie / CM |
 | 3 plants with "MUERTA EN EL TRAYECTO" notes, counted as ordinary deaths | censo maintainer |
 
 Known limitation, not resolved: follow-up time varies from 1 to 381 days between plants. It was tested as an offset in the mortality model but destabilised fitting, so it's excluded. Species with longer observation windows may appear more prone to mortality than they are.
